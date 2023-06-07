@@ -68,3 +68,16 @@ sendBtn.addEventListener("click", function (e) {
     chatbotResponse(userMessageText);
   }
 });
+
+
+
+function show_chatbot()
+{
+  document.documentElement.scrollTop = 4000;
+  document.getElementById("chat2").className = " d-block";
+}
+
+function hide_chatbot()
+{
+  document.getElementById("chat2").className = " d-none"; 
+}

@@ -1,0 +1,25 @@
+<div class="position-fixed" style="right: 90px; bottom: 40px ; display: block;"data-aos="fade-up">
+
+<button id="chat_button" class=" fa-solid fa-robot border-0 bg-black link-light rounded-2 p-2" onclick="show_chatbot()"></button>
+</div>
+
+<section class="container-fluid p-5">
+<div class="card position-fixed d-none " id="chat2" style="z-index: 500;" >
+    <div class="card-header d-flex justify-content-between align-items-center p-3">
+      <h5 class="mb-0">Chatbot</h5>
+      <i class="fa-regular fa-circle-xmark text-end link-black" onclick="hide_chatbot()" id="close_chat_button"></i>
+    </div>
+    <div class="card-body" id="chatContainer" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px ; overflow-y: scroll;">
+
+
+
+    </div>
+    <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
+      <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp" alt="avatar 3" style="width: 40px; height: 100%;">
+      <input type="text" id="textbox" class="form-control form-control-lg" placeholder="Type message">
+      <a class="ms-3" id="sendBtn"><i class="fas fa-paper-plane"></i></a>
+    </div>
+  </div>
+</section>
+
+<script src="../java/chatbot.js"></script>
