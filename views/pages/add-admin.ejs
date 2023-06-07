@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("../partials/Head.ejs") %>
+  </head>
+  <body>
+    <div class="page d-flex">
+      <%- include("../partials/sidebar_admin.ejs") %>
+      <div class="content w-full">
+        <!-- Start Head -->
+        <%- include("../partials/Navbar_admin.ejs") %>
+        <!-- End Head -->
+        <h1 class="p-relative">Blankoo Team</h1>
+        <div class="btn-group d-flex justify-content-center  col-12 mb-5" role="group" aria-label="Basic outlined example">
+          <a type="button" class="btn btn-outline-dark active" href="/admin/add-admin" >Add Admin</a>
+          <a type="button" class="btn btn-outline-dark " href="/admin/team">View Team</a>
+        </div>
+        <div class = "row m-2 justify-content-center">
+          <form action="/admin/add-admin" method="post">
+              <div class="form-group">
+                <label for="name">Username:</label>
+                <input type="text" class="form-control" id="username" name="username">
+              </div>
+              <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" class="form-control" id="email" name="email">
+              </div>
+              <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" name="password">
+              </div>
+              <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+          </div>
+        </div>
+      </div>
+  </body>
+</html>

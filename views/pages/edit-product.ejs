@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("../partials/Head.ejs") %>
+  </head>
+  <body>
+    <div class="page d-flex">
+      <%- include("../partials/sidebar_admin.ejs") %>
+      <div class="content w-full">
+        <!-- Start Head -->
+        <%- include("../partials/Navbar_admin.ejs") %>
+        <!-- End Head -->
+        <h1 class="p-relative">Blankoo Products</h1>
+        <div class = "row m-2 justify-content-center">
+          <form  enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name"  value="<%= product.pname %>"  required>
+              </div>
+              <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" step=".01" class="form-control" id="price" name="price"  value="<%= product.Price %>"  required>
+              </div>
+              <div class="form-group">
+                <label for="category">Catergory:</label>
+                <input class="form-control" id="category" name="category"  rows="3"  value="<%= product.category %>" required>
+              </div>
+              <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea class="form-control" id="description" name="description" rows="3" required  ><%= product.Description %></textarea>
+              </div>
+                
+              <input class="form-control" id="image" name="image"  type="file" value="<%= product.Image %>" required>
+
+              <button type="submit" class="btn btn-primary" id="editBtn">edit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+    $(document).ready(function() {
+        $('#editBtn').click(function() {
+          console.log('Edit button clicked');
+            $.ajax({
+                url: `/admin/edit/<%= product._id %>`,
+                method: 'PATCH',
+                data: {
+                  pname: $('#name').val(),
+                  Price: $('#price').val(),
+                  Description: $('#description').val(),
+                  category: $('#category').val(),
+                  Image: $('#image').val(),
+                },
+
+                success: function(response) {
+                    // Reload the page to show updated product list
+                    window.location.reload();
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+        });
+    });
+    </script>
+  </body>
+</html>

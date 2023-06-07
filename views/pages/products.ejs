@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include("../partials/Head.ejs") %>
+    </head>
+    <body>
+        <%- include("../partials/Nav.ejs") %>
+      
+        <section class=" choose container-fluid  mt-5 mb-5">
+      
+          <!-- products -->
+
+            <div class="col-12 col-md-4">
+               <div class="card shadow">
+                   <div class="card-body">
+                       <h3 class="h5 card-title">Product type</h3>
+                       <%for (let index = 0; index < uniqueCat.length; index++) {%>
+                       
+                       <ul class="list-group text-gray">
+                           <li class="list-group-item d-flex justify-content-between align-items-center border-0 py-1 px-0 font-small">
+                               <a href="/user/search-filter/<%=uniqueCat[index]%>" class="btn btn-outline-secondary"><%=uniqueCat[index]%> </a>
+                               <span class="badge bg-gray badge-pill">123</span>
+                           </li>
+                       </ul>
+                       <%}%>
+                       
+                   </div>
+               </div>
+           </div>
+
+        <div class="row">
+          <% products.forEach((product) => { %>
+            <%- include('../partials/product_card_client', { product: product }) %>
+        <% }); %>
+        </div>
+        </section>
+
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+
+            <% if(page > 1){ %>
+              <li class="page-item">
+                <a class="page-link  text-bg-dark " href="?page=<%=page-1%>" aria-label="Previous">
+                  <span aria-hidden="true">Previous</span>
+                </a>
+              </li>
+              <% } %>
+            <% let counter = page;%>
+            <% for(let i = iterator ; i <= endingLink ; i++){ %>
+              <% if(page == i){%>
+                <li class="page-item"><a class="page-link text-bg-dark " href="?page=<%=i%>"><%=i%></a></li>  
+                <%  counter ++;  %>
+                <%  continue; %>
+              <% }
+              else { %>
+                <li class="page-item"><a class="page-link text-bg-light  link-dark" href="?page=<%=i%>"><%=i%></a></li>
+                <%}%>
+                
+            <% } %>
+            <% if(page < numberofPages ){ %>
+              <li class="page-item">
+                <a class="page-link text-bg-dark link-dark" href="?page=<%=counter%>" aria-label="Next">
+                  <span aria-hidden="true">Next</span>
+                </a>
+              </li> 
+            <% } %>
+          </ul>
+        </nav>
+        <%- include("../partials/Top_Function.ejs") %>
+        <%- include("../partials/Footer.ejs") %>
+      
+      
+      </body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@v0.74.0/dist/L.Control.Locate.min.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@v0.74.0/dist/L.Control.Locate.min.js"
+        charset="utf-8"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.4/dist/L.Control.Locate.min.css" />
+
+        
+    <%- include("../partials/Head.ejs") %>
+</head>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    #map {
+        width: 100%;
+        height: 50vh;
+    }
+</style>
+
+<body>
+    <%- include("../partials/Nav.ejs") %>
+    <section class=" container mt-5 mb-5">
+        <form action="/user/payment" method="post">
+        <div class="row mb-5">
+
+            <!-- left row -->
+            <div class="col-12 col-sm-6">
+                <div class="container-fluid">
+                    <!-- title -->
+                    <h4 class="mb-4">
+                        Shipping
+                    </h4>
+                    <!-- map -->
+                    <div class="container">
+                        <div id="map">
+
+                        </div>
+                    </div>
+                    <!-- info -->
+
+                    <div class="row mb-3">
+                        <div class="col-6 mt-4">
+                            <div class="form-group">
+                                <input id="" type="text" required placeholder="Address" name="Address" class="form-control  border-0 shadow-sm  text-black" >
+                            </div>
+                        </div>
+                
+                            <input  type="text" placeholder="longit" name="longit" id="longit" class="form-control  border-0 shadow-sm  text-black d-none">
+                            <input type="text"  placeholder="latit" name="latit" id="latit" class="form-control  border-0 shadow-sm  text-black d-none">
+
+
+                        <div class="col-6 mt-4">
+                            <div class="form-group">
+                                <input id="" type="text" required placeholder="Street name" name="Street_name" class="form-control  border-0 shadow-sm  text-black">
+                            </div>
+                        </div>
+                        <div class="col-6 mt-4">
+                            <div class="form-group">
+                                <input id="first" type="text" required placeholder="Building" name="Building" class="form-control  border-0 shadow-sm  text-black">
+                            </div>
+                        </div>
+                        <div class="col-6 mt-4 ">
+                            <div class="form-group">
+                                <input id="second" type="text" required placeholder="Floor" name="Floor" class="form-control  border-0 shadow-sm  text-black">
+                            </div>
+                        </div>
+                        <div class="col-6 mt-4 mb-5">
+                            <div class="form-group">
+                                <input id="" type="text" required  placeholder="Apartement" name="Apartment" class="form-control  border-0 shadow-sm  text-black">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end -->
+
+            <!-- left border!!! -->
+            <div class="col-12 col-sm-6">
+                <div class="container-fluid mb-5 ">
+                    <h4 class="mb-4">
+                        Summary
+                    </h4>
+
+                    <div class="border-bottom mb-3">
+
+                        <div class="d-flex justify-content-between  pb-4">
+                            <h5>
+                                Items
+                            </h5>
+                            <h5 class="">
+                                Price
+                            </h5>
+                            <h5>
+                                Quantity
+                            </h5>
+
+                        </div>
+
+                        <div>
+                            <% products.forEach((product)=> { %>
+                                <%- include('../partials/check_out', { product: product }) %>
+                                    <% }); %>
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between pb-2">
+                        <h5>
+                            Total
+                        </h5>
+
+                        <h5 class="text-muted pe-3">
+                            <%= subtotal %>EGP
+                        </h5>
+                    </div>
+
+
+                </div>
+                <div>
+                        <script
+                        src="//checkout.stripe.com/v2/checkout.js"
+                        class="stripe-button"
+                        data-key="<%= key %>"
+                        data-amount= "<%= subtotal*100 %>"
+                        data-currency="EGP"
+                        data-name="Blankoo"
+                        data-description="Buy Blankoo Product"
+                        data-locale="auto">
+                    </script>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+    </section>
+    <script>
+        // Map initialization 
+        navigator.geolocation.getCurrentPosition(function (position) 
+        {
+            console.log('--- Your Position: ---');
+    
+            console.log('Lat: ' + position.coords.latitude);
+            latit = position.coords.latitude;
+            
+            console.log('Long: ' + position.coords.longitude);
+            longit = position.coords.longitude;
+            
+
+            document.getElementById('latit').value = latit;
+           
+            document.getElementById('longit').value = longit;
+            // map //
+            var map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 13);
+            // map style //
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            // locator control //
+            L.control.locate().addTo(map);
+        });
+        
+
+    
+    </script>
+
+    <%- include("../partials/Top_Function.ejs") %>
+    <%- include("../partials/Footer.ejs") %>
+    <!-- leaflet js  -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.js"
+    charset="utf-8"></script>
+</body>
+
+</html>
+
+
+
+
+

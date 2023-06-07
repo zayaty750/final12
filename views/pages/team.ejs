@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include("../partials/Head.ejs") %>
+</head>
+
+<body>
+  <div class="page d-flex">
+    <%- include("../partials/sidebar_admin.ejs") %>
+      <div class="content w-full">
+        <!-- Start Head -->
+        <%- include("../partials/Navbar_admin.ejs") %>
+          <!-- End Head -->
+          <h1 class="p-relative">Blankoo Team</h1>
+          <div class="row ">
+            <div class="btn-group d-flex justify-content-center  col-12 mb-5" role="group"
+              aria-label="Basic outlined example">
+              <a type="button" class="btn btn-outline-dark" href="/admin/add-admin">Add Admin</a>
+              <a type="button" class="btn btn-outline-dark active" href="/admin/team">View Team</a>
+            </div>
+            <div class="friends-page d-grid m-20 gap-20">
+              <% user.forEach((User)=> { %>
+                <% if(User.isAdmin==true){ %>
+                  <%- include('../partials/user_card', { User: User }) %>
+                    <% } %>
+                      <% }); %>
+            </div>
+          </div>
+      </div>
+      <script>
+        //el saf7a dy
+      $(document).ready(function() {
+          //l id bta3 l button
+          $('#delete').click(function() {
+              console.log('Delete button clicked');
+              const productId = $(this).data('id');
+              $.ajax({
+                  url: `/admin/delete-admin/${productId}`,
+                  method: 'DELETE',
+                  success: function(response) {
+                      // Reload the page to show updated product list
+                      window.location.reload();
+                  },
+                  error: function(err) {
+                      console.log(err);
+                  }
+              });
+          });
+      });
+  </script>
+</body>
+
+</html>
