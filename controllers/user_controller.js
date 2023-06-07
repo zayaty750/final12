@@ -36,6 +36,30 @@ const getclients = async (req, res, next) => {
     });
 };
 
+
+const getProductById = async (req, res, next) => {
+  const id = req.params.id;
+  try {
+    if (!mongo.ObjectId.isValid(id) ) {
+      return res.status(400).json({ message: `Error: Invalid product ID ${id}` });
+    }
+    const product = await Product.findById(id);
+    if (product) {
+      //return res.status(200).json(product);
+      return res.render("pages/product", {  product: product ,user: (req.session.user === undefined ? "" : req.session.user)});
+    }
+    throw new Error(`Product with id ${id} not found`);
+  } catch (err) {
+    console.log(err.message);
+    // if (err.name === 'CastError' && err.kind === 'ObjectId') {
+    //     return res.status(400).json({ message: "Error: Invalid product ID" });
+    //   }
+      next(err);
+  } finally {
+    console.log("Finally Block executed");
+  }
+};
+
 const getcategory = async (req, res, next) => {
 
   let cart = new Cart(req.session.cart ? req.session.cart : {});
@@ -217,4 +241,4 @@ const payment = (req, res) => {
 };
 
 
-export { addUser, getclients, GetUser, payment, edituserprofile, updateprofile, getcategory };
+export { addUser, getclients, GetUser, payment, edituserprofile, updateprofile, getcategory ,getProductById};

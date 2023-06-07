@@ -2,7 +2,7 @@
                             <div class="card  rounded bg-light border">
 
                                 <div class="image-wrapper img-hover-zoom img-hover-zoom--quick-zoom">
-                                    <a href="product.html">
+                                    <a href="/user/product/<%= product._id %>">
                                         <img src="<%= product.Image %>" class="card-img-top" alt="">
                                     </a>
                                 </div>
@@ -11,7 +11,6 @@
                                     <div class="d-flex justify-content-between mt-3 mb-2">
 
                                         <h5><%= product.pname %></h5>
-                                        <h5 class="bi-heart" onclick="change_heart(this)" style=" cursor: pointer; ">
                                         </h5>
                                     </div>
 

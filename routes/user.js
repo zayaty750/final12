@@ -27,7 +27,7 @@ import
   import {Cart}
  from  "../models/cart-model.js";
 
-import {payment,updateprofile,getcategory} from '../controllers/user_controller.js'
+import {payment,updateprofile,getcategory,getProductById} from '../controllers/user_controller.js'
 
 import Product from "../models/products_model.js";
 
@@ -81,6 +81,8 @@ router.post('/payment',payment)
 
 // product page
 
+router.get('/product/:id', getProductById);
+
 router.get('/products', getcategory);
 
 //  add to cart 
@@ -100,13 +102,13 @@ router.get("/reduce/:id",function(req,res,next){
 })
 
 // remove 
-// router.get("/reduce/:id",function(req,res,next){
+// router.get("/reduce-all/:id",function(req,res,next){
 //   let productId = req.params.id;
 //   let cart = new Cart(req.session.cart? req.session.cart :{});
 
 //   cart.removeItem(productId);
 //   req.session.cart=cart;
-//   res.redirect('/user/add-to-cart');
+//   res.redirect('/user/cart');
 // })
 
 
