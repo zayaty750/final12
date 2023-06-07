@@ -183,6 +183,7 @@ router.route("/reset-password/:userId/:token")
   //document.getElementById(search).value()
 // Search for products
 router.post("/search",async (req,res)=>{
+  let cart = new Cart(req.session.cart ? req.session.cart : {});
   let data = await Product.find(
       {
           "$or":[
@@ -192,7 +193,7 @@ router.post("/search",async (req,res)=>{
       }
   )
 
-  res.render("pages/search",{products:data, user:  (req.session.user === undefined ? "" : req.session.user)});
+  res.render("pages/search",{products:data, user:  (req.session.user === undefined ? "" : req.session.user), qt: cart.totalQty});
 });
 
   // let cart = new Cart(req.session.cart ? req.session.cart : {});
@@ -210,6 +211,7 @@ router.post("/search",async (req,res)=>{
   // let iterator = 1;
   // let endingLink = numberofPages;
   router.get("/search-filter/:key",async (req,res)=>{
+    let cart = new Cart(req.session.cart ? req.session.cart : {});
     let data = await Product.find(
         {
             "$or":[
@@ -219,7 +221,7 @@ router.post("/search",async (req,res)=>{
         }
     )
 
-  res.render("pages/search",{products:data, user:  (req.session.user === undefined ? "" : req.session.user)});
+  res.render("pages/search",{products:data, user:  (req.session.user === undefined ? "" : req.session.user), qt: cart.totalQty});
 
 })
 

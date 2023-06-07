@@ -40,17 +40,15 @@ router.get('/Home',function(req,res,next)
 // Aboutus page
 router.get('/About_us',function(req,res,next)
 {
-    res.render('pages/aboutus',{ user: (req.session.user === undefined ? "" : req.session.user) });
+  let cart = new Cart(req.session.cart ? req.session.cart : {});
+    res.render('pages/aboutus',{ user: (req.session.user === undefined ? "" : req.session.user),qt: cart.totalQty });
 });
 // Aboutus page
 router.get('/Features',function(req,res,next)
 {
-    res.render('pages/features',{ user: (req.session.user === undefined ? "" : req.session.user) });
+  let cart = new Cart(req.session.cart ? req.session.cart : {});
+    res.render('pages/features',{ user: (req.session.user === undefined ? "" : req.session.user) ,qt: cart.totalQty});
 });
-// chat bot
-router.get('/chatbot',function(req,res,next)
-{
-    res.render('pages/chatbot');
-});
+
 
 export default router;

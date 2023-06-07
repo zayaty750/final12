@@ -3,7 +3,9 @@ import{User,validateChangePassword}from"../models/user-model.js"
 import jwt from"jsonwebtoken";
 import bcrypt from"bcryptjs";
 import nodemailer from"nodemailer";
-
+import { Cart }
+  from "../models/cart-model.js";
+  
 /**
  * @desc  Get Forgot Password View
  * @route  /password/forgot-password
@@ -14,7 +16,8 @@ import nodemailer from"nodemailer";
 
 const getForgotPasswordView = asyncHandler((req,res)=>{
     //hna haya5d el page eli esmaha forgot-password mn el views
-    res.render('pages/forgot-password',{user: (req.session.user === undefined ? "" : req.session.user)});
+    let cart = new Cart(req.session.cart ? req.session.cart : {});
+    res.render('pages/forgot-password',{user: (req.session.user === undefined ? "" : req.session.user),qt: cart.totalQty});
 })
 
 /**
@@ -59,12 +62,13 @@ const sendForgotPasswordLink = asyncHandler(async(req,res)=>{
       }
     
       transporter.sendMail(mailOptions, function(error, success){
+        let cart = new Cart(req.session.cart ? req.session.cart : {});
         if(error){
           console.log(error);
           res.status(500).json({message: "something went wrong"});
         } else {
           console.log("Email sent: " + success.response);
-          res.render("pages/link-send",{ user: (req.session.user === undefined ? "" : req.session.user)});
+          res.render("pages/link-send",{ user: (req.session.user === undefined ? "" : req.session.user),qt: cart.totalQty});
         }
       });
     
@@ -79,6 +83,7 @@ const sendForgotPasswordLink = asyncHandler(async(req,res)=>{
 
 const getResetPasswordView = asyncHandler(async(req,res)=>{
     //console.log(req.body.email);
+    let cart = new Cart(req.session.cart ? req.session.cart : {});
     const user = await User.findById(req.params.userId);
     if (!user) {
         return res.status(404).json({ message: "user not found" });
@@ -86,7 +91,7 @@ const getResetPasswordView = asyncHandler(async(req,res)=>{
       const secret = process.env.JWT_SECRET_KEY + user.password;
       try {
         jwt.verify(req.params.token, secret);
-        res.render("pages/reset-password", { user: (req.session.user === undefined ? "" : req.session.user),email: user.email });
+        res.render("pages/reset-password", { user: (req.session.user === undefined ? "" : req.session.user),email: user.email ,qt: cart.totalQty});
       } catch (error) {
         console.log(error);
         res.json({ message: "Error" });
@@ -103,7 +108,9 @@ const getResetPasswordView = asyncHandler(async(req,res)=>{
  */
 
 const resetThePassword = asyncHandler(async(req,res)=>{
-    const {error}= validateChangePassword(req.body);
+  let cart = new Cart(req.session.cart ? req.session.cart : {});  
+  const {error}= validateChangePassword(req.body);
+
     if(error){
       return res.status(400).json({ message: error.details[0].message});
     }
@@ -120,7 +127,7 @@ const resetThePassword = asyncHandler(async(req,res)=>{
     user.password = req.body.password;
 
     await user.save();
-    res.render("pages/success-password",{user: (req.session.user === undefined ? "" : req.session.user)});
+    res.render("pages/success-password",{user: (req.session.user === undefined ? "" : req.session.user),qt: cart.totalQty});
       } catch (error) {
         console.log(error);
         res.json({ message: "Error" });

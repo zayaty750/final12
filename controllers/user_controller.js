@@ -38,6 +38,7 @@ const getclients = async (req, res, next) => {
 
 
 const getProductById = async (req, res, next) => {
+  let cart = new Cart(req.session.cart ? req.session.cart : {});
   const id = req.params.id;
   try {
     if (!mongo.ObjectId.isValid(id) ) {
@@ -46,7 +47,7 @@ const getProductById = async (req, res, next) => {
     const product = await Product.findById(id);
     if (product) {
       //return res.status(200).json(product);
-      return res.render("pages/product", {  product: product ,user: (req.session.user === undefined ? "" : req.session.user)});
+      return res.render("pages/product", {  product: product ,user: (req.session.user === undefined ? "" : req.session.user),qt: cart.totalQty});
     }
     throw new Error(`Product with id ${id} not found`);
   } catch (err) {
