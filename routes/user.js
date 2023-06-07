@@ -90,21 +90,24 @@ router.get('/cart',getCart);
 
 // reduce by 1 route
 router.get("/reduce/:id",function(req,res,next){
+
   let productId = req.params.id;
   let cart = new Cart(req.session.cart? req.session.cart :{});
   cart.reduceByOne(productId);
-  req.session.cart=cart;
-  res.redirect('/user/add-to-cart');
-})
-// remove 
-router.get("/reduce/:id",function(req,res,next){
-  let productId = req.params.id;
-  let cart = new Cart(req.session.cart? req.session.cart :{});
 
-  cart.removeItem(productId);
-  req.session.cart=cart;
-  res.redirect('/user/add-to-cart');
+  req.session.cart = cart;
+  res.redirect('/user/cart');
 })
+
+// remove 
+// router.get("/reduce/:id",function(req,res,next){
+//   let productId = req.params.id;
+//   let cart = new Cart(req.session.cart? req.session.cart :{});
+
+//   cart.removeItem(productId);
+//   req.session.cart=cart;
+//   res.redirect('/user/add-to-cart');
+// })
 
 
 /*               End                 */
