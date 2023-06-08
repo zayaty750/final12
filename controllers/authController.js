@@ -26,17 +26,17 @@ function generateUsername(fullName) {
  */
 const register = asyncHandler(async (req, res) => {
     //const {error} 3shan hayrg3ly error
-
+    let cart = new Cart(req.session.cart ? req.session.cart : {});
     const { error } = validateRegisterUser(req.body);
 
     if (error) {
-        return res.render('pages/Signup', { user: (req.session.user === undefined ? "" : req.session.user), message: error.details[0].message });
+        return res.render('pages/Signup', { user: (req.session.user === undefined ? "" : req.session.user), message: error.details[0].message ,qt: cart.totalQty});
     }
 
     // lw el mail mawgood fl data base a2olo eno mawgood
     let user = await User.findOne({ email: req.body.email });
     if (user) {
-        return res.render('pages/Signup', { user: (req.session.user === undefined ? "" : req.session.user), message: "This User already registered" });
+        return res.render('pages/Signup', { user: (req.session.user === undefined ? "" : req.session.user), message: "This User already registered",qt: cart.totalQty });
 
     }
 
@@ -454,22 +454,22 @@ if (req.body.password === req.body.confirmPassword) {
 const login = asyncHandler(async (req, res) => {
     //const {error} 3shan hayrg3ly error
     const { error } = validateLoginUser(req.body);
-
+    let cart = new Cart(req.session.cart ? req.session.cart : {});
     if (error) {
-        return res.render('pages/login', { user: (req.session.user === undefined ? "" : req.session.user), message: error.details[0].message });
+        return res.render('pages/login', { user: (req.session.user === undefined ? "" : req.session.user), message: error.details[0].message ,qt: cart.totalQty });
 
     }
 
     // lw el user msh mawgood, byb3t query ll database yshof el user mawgood wla la
     let user = await User.findOne({ username: req.body.username });
     if (!user) {
-        return res.render('pages/login', { user: (req.session.user === undefined ? "" : req.session.user), message: "invalid username or password" });
+        return res.render('pages/login', { user: (req.session.user === undefined ? "" : req.session.user), message: "invalid username or password" ,qt: cart.totalQty});
     }
     //hnshoof el password s7 wla la              mn el client       mn el database
     const isPasswordMatch = await bcrypt.compare(req.body.password, user.password);
     //lw el password 8alat
     if (!isPasswordMatch) {
-        return res.render('pages/login', { user: (req.session.user === undefined ? "" : req.session.user), message: "invalid username or password" });
+        return res.render('pages/login', { user: (req.session.user === undefined ? "" : req.session.user), message: "invalid username or password" ,qt: cart.totalQty});
     }
     //abl ma a3ml function fl user model 3shan makarrsh el goz2 bta3 el jwt dh
     // el methos sign gowa el jwt bt3ml new token awl param el payload tany param secret key talet param e5tyary el expire date 4d 4 days lw mktbtsh hayb2a sale7 ll abd
