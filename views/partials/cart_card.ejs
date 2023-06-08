@@ -4,7 +4,10 @@
     <td data-th="Product">
         <div class="row">
             <div class="col-md-3 text-left">
-                <img src="<%= product.item.Image %>" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                <a href="/user/product/<%= product.item._id %>">
+                    <img src="<%= product.item.Image %>" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                </a>
+       
             </div>
             <div class="col-md-9 text-left mt-sm-2">
                 <h4><%= product.item.pname %></h4>
