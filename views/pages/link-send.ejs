@@ -14,6 +14,16 @@
                 <div class="col-md-12 bg-light ">
 
                     <div class="container " id="forgotPassword">
+                        <% if(message===undefined){ }else{ %>
+
+                            <div class="alert alert-warning alert-dismissible show" role="alert">
+                                <strong>ERROR</strong>
+                                <%= message %>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
+    
+                            <% } %>
                         <div class="row ms-5">
                             <div class="col-lg-10 col-xl-7 ">
                                 <h3 class="display-4">Please Check Your Email</h3>
