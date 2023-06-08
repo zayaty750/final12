@@ -6,7 +6,7 @@ import session, { Cookie } from "express-session";
 import MongoStore from 'connect-mongo';
 // import logger from "morgan";
 import { fileURLToPath } from "url";
-// import fs from "fs";
+// import fs from "fs"
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -81,6 +81,11 @@ app.use(function ( req, res, next) {
     next();
 });
 
+// 404 page
+app.use((req, res) => {
+  res.status(404).render('pages/404', { user: (req.session.user === undefined ? "" : req.session.user) ,qt: 0 });
+});
+
 
 // error handler
 app.use(function (err, req, res, next) {
@@ -91,7 +96,7 @@ app.use(function (err, req, res, next) {
   console.log(err.message);
   // render the error page
   res.status(err.status || 500);
-  res.send("Error");
+  res.render('pages/error', { user: (req.session.user === undefined ? "" : req.session.user) ,qt: 0 });
 });
 
 
