@@ -135,11 +135,13 @@ const addUser = async (req, res, next) => {
 
 //user profileview , edit and update
 const edituserprofile = async (req, res) => {
+  
+  let cart = new Cart(req.session.cart ? req.session.cart : {});
   try {
     const id = req.query.id;
     const userdata = await User.findById({ _id: id });
     if (userdata) {
-      res.redirect('/editprofile', { user: userdata });
+      res.redirect('/editprofile', { user: userdata ,qt: cart.totalQty});
     } else {
       res.redirect('/home');
     }
@@ -152,6 +154,7 @@ const edituserprofile = async (req, res) => {
 
 
 const updateprofile = async (req, res) => {
+  
   const id = req.params.id;
   if (!mongo.ObjectId.isValid(id)) {
     return res.status(400).json({ message: `Error: Invalid product ID ${id}` });

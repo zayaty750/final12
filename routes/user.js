@@ -51,11 +51,11 @@ router.get('/Profile', (req, res)=> {
   let cart = new Cart(req.session.cart ? req.session.cart : {});
   if(req.session.user === undefined)
   {
-    res.render('pages/profile',{ user: (req.session.user === undefined ? "" : req.session.user) });
+    res.render('pages/profile',{ user: (req.session.user === undefined ? "" : req.session.user),qt: cart.totalQty });
   }
   else
   {
-    res.render('pages/profile', { user: (req.session.user === undefined ? "" : req.session.user) } );
+    res.render('pages/profile', { user: (req.session.user === undefined ? "" : req.session.user),qt: cart.totalQty } );
   }
 
 });

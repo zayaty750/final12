@@ -47,18 +47,18 @@ rel="stylesheet"
   <div class="card-body">
       <div class="mb-3 p-3">
           <label class="small mb-1 p-1" for="inputUsername">Your Username </label>
-          <input class="form-control" name="name" type="text" value="<%= user.username%>">
+          <input class="form-control" name="name" type="text" value="<%= user.username%>" readonly>
       </div>
       <div class="mb-3 p-3">
         <label class="small mb-1" for="inputEmailAddress">Your Email Address</label>
         <input class="form-control" id="inputEmailAddress" type="email" placeholder="name@gmail.com"
-            name="email" value="<%= user.email %>">
+            name="email" value="<%= user.email %>" readonly>
     </div>
 
     <div class="col-md-6 p-3">
       <label class="small mb-1" for="inputpassword">Your Password</label>
       <input class="form-control" id="inputpassword" type="password" name="password"
-      value="<%= user.password %>" name="password">
+      value="<%= user.password %>" name="password" readonly>
   </div>
   <div class="col-md-6 p-3">  <a class="btn btn-primary"  href="/user/editprofile"> tap to edit profile</a>
   </div>
